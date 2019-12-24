@@ -1,0 +1,14 @@
+info:
+  build:
+    artifact: @project.artifactId@
+    name: @project.name@
+    description: @project.description@
+    version: @project.version@
+  api-doc: http://${spring.cloud.client.hostname}${server.contextPath}/@restDocDirectory@/@restDocName@@restDocExtension@
+    
+spring:
+  cloud:
+    config:
+      failFast: true
+  application:
+    name: @project.artifactId@
