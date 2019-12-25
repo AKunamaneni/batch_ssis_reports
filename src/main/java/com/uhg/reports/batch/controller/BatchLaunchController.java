@@ -27,7 +27,7 @@ public class BatchLaunchController {
     }
 
     @GetMapping("/batch/launch/reports")
-    public String launchInTransitEDINotification() {
+    public String launchEmbeddedReportsBatch() {
         JobExecution jobExecution = null;
         try {
             jobExecution = joblauncher.run(job,

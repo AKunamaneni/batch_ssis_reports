@@ -9,7 +9,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class InTransitJobScheduler extends QuartzJobBean{
+public class ReportsJobScheduler extends QuartzJobBean{
 
     @Autowired
     private ReportsService reportsService;

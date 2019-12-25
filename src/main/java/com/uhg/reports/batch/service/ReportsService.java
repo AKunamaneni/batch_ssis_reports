@@ -1,8 +1,6 @@
 package com.uhg.reports.batch.service;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -13,16 +11,10 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.jbhunt.biz.securepid.PIDCredentials;
-import com.jbhunt.security.boot.autoconfig.enterprisesecurity.user.AuditUserInfo;
-import com.jbhunt.security.boot.autoconfig.enterprisesecurity.user.JbhUser;
-
-import lombok.extern.slf4j.Slf4j;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Service
 @Slf4j

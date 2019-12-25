@@ -22,8 +22,8 @@ public class SchedulerConfiguration {
         simpleAsyncTaskExecutor.setConcurrencyLimit(Optional.
                 ofNullable(reportsBatchProperties.getConcurrencyLimit()).orElse(5));
         simpleAsyncTaskExecutor.setDaemon(false);
-        simpleAsyncTaskExecutor.setThreadGroupName("jbhunt batch job luncher");
-        simpleAsyncTaskExecutor.setThreadNamePrefix("IN-TRANSIT JOJ EXCUTOR");
+        simpleAsyncTaskExecutor.setThreadGroupName("uhg batch job launcher");
+        simpleAsyncTaskExecutor.setThreadNamePrefix("REPORTS JOB EXECUTOR");
         return simpleAsyncTaskExecutor;
     }
 }

@@ -11,7 +11,7 @@ import lombok.Data;
 @ConfigurationProperties("reports.batch.job")
 @Data
 public class ReportsBatchProperties {
-    private Double startDelay;
+    private Long startDelay;
     private Double repeatInterval;
     private Integer concurrencyLimit;
     private Integer pageSize;

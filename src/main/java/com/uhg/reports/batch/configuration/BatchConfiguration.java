@@ -1,6 +1,5 @@
 package com.uhg.reports.batch.configuration;
 
-import com.jbhunt.infrastructure.notification.entity.EDINotificationSubscription;
 import com.uhg.reports.batch.entity.DashboardEmbeddedReport;
 import com.uhg.reports.batch.entity.DashboardEmbeddedReportProperty;
 import com.uhg.reports.batch.job.ReportsProcessor;
@@ -12,6 +11,7 @@ import com.uhg.reports.batch.properties.ReportsBatchProperties;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -28,13 +28,14 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute;
 
 import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.FutureTask;
 
 @Configuration
-public class BatchConfiguration {
+public class BatchConfiguration extends DefaultBatchConfigurer {
 
     private static final String GET_MOST_RECENT_RECORD_QUERY = "";
 
@@ -58,7 +59,7 @@ public class BatchConfiguration {
     @SuppressWarnings("unchecked")
     @Bean
     public Step inTransitStep(JpaPagingItemReader<DashboardEmbeddedReportProperty> reportsJPAPagingItemReader, ReportsWriter writer,
-                              ReportsProcessor processor, PlatformTransactionManager jpaTransactionManager,
+                              ReportsProcessor processor, PlatformTransactionManager transactionManager,
                               SimpleAsyncTaskExecutor simpleAsyncTaskExecutor, ReportsStepListener inTransitStepListener,
                               ReportsChunkListener reportsChunkListener) {
         
@@ -77,7 +78,7 @@ public class BatchConfiguration {
                 writer(writer).
                 listener(inTransitStepListener).
                 listener(reportsChunkListener).
-                transactionManager(jpaTransactionManager).
+                transactionManager(transactionManager).
                 transactionAttribute(transactionAttribute).
                 allowStartIfComplete(true).build();
     }
@@ -106,6 +107,12 @@ public class BatchConfiguration {
         params.put("batchTime", stepExecution.getJobExecution().getStartTime());
         itemReader.setParameterValues(params);
         return itemReader;
+    }
+
+    @Override
+    public void setDataSource(DataSource dataSource) {
+        // override to not set datasource even if a datasource exist.
+        // initialize will use a Map based JobRepository (instead of database)
     }
     
     
