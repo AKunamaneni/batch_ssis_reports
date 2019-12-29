@@ -12,8 +12,7 @@ import lombok.Data;
 @Data
 public class ReportsBatchProperties {
     private Long startDelay;
-    private Double repeatInterval;
+    private String conExpression;
     private Integer concurrencyLimit;
     private Integer pageSize;
-    private Integer batchSize;
 }

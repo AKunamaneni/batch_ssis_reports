@@ -37,7 +37,7 @@ import java.util.concurrent.FutureTask;
 @Configuration
 public class BatchConfiguration extends DefaultBatchConfigurer {
 
-    private static final String GET_MOST_RECENT_RECORD_QUERY = "";
+    private static final String GET_ACTIVE_REPORTS_QUERY = "select * from schema.dashboard_embedded_report_property where is_active='Y'";
 
     private JobBuilderFactory jobFactory;
 
@@ -72,7 +72,7 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
         asyn.setTaskExecutor(simpleAsyncTaskExecutor);
         
         return stepFactory.get("REPORTS_STEP").
-                <DashboardEmbeddedReportProperty, FutureTask<DashboardEmbeddedReport>>chunk(100).
+                <DashboardEmbeddedReportProperty, FutureTask<DashboardEmbeddedReport>>chunk(1).
                 reader(reportsJPAPagingItemReader).
                 processor((ItemProcessor<? super DashboardEmbeddedReportProperty, ? extends FutureTask<DashboardEmbeddedReport>>) asyn).
                 writer(writer).
@@ -94,12 +94,12 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
             EntityManagerFactory entityManagerFactory, @Value("#{stepExecution}")StepExecution stepExecution) {
         JpaPagingItemReader<DashboardEmbeddedReportProperty> itemReader = new JpaPagingItemReader<>();
         itemReader.setTransacted(false);
-        itemReader.setPageSize(Optional.ofNullable(reportsBatchProperties.getPageSize()).orElse(100));
+        itemReader.setPageSize(Optional.ofNullable(reportsBatchProperties.getPageSize()).orElse(1));
         JpaNativeQueryProvider<DashboardEmbeddedReportProperty> jpaNativeQueryProvider = new JpaNativeQueryProvider<>();
         jpaNativeQueryProvider.setEntityManager(entityManagerFactory.createEntityManager());
         jpaNativeQueryProvider.setEntityClass(DashboardEmbeddedReportProperty.class);
         jpaNativeQueryProvider
-                .setSqlQuery(GET_MOST_RECENT_RECORD_QUERY);
+                .setSqlQuery(GET_ACTIVE_REPORTS_QUERY);
    
         itemReader.setEntityManagerFactory(entityManagerFactory);
         itemReader.setQueryProvider(jpaNativeQueryProvider);

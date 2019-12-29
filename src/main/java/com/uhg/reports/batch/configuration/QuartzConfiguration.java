@@ -64,7 +64,7 @@ public class QuartzConfiguration {
         CronTriggerFactoryBean cronTriggerFactoryBean = new CronTriggerFactoryBean();
         cronTriggerFactoryBean.setJobDetail(reportsQuartzJobDetail().getObject());
         cronTriggerFactoryBean.setStartDelay(reportsBatchProperties.getStartDelay());
-        cronTriggerFactoryBean.setCronExpression("0 0 20 * * FRI");
+        cronTriggerFactoryBean.setCronExpression(reportsBatchProperties.getConExpression());
         return cronTriggerFactoryBean;
     }
 }

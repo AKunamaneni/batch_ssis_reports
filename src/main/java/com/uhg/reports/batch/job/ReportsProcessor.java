@@ -9,6 +9,12 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.net.URL;
+import java.time.LocalDateTime;
+
 @Component
 @StepScope
 @Slf4j
@@ -19,10 +25,18 @@ public class ReportsProcessor implements ItemProcessor<DashboardEmbeddedReportPr
 
     @Override
     public DashboardEmbeddedReport process(DashboardEmbeddedReportProperty dashboardEmbeddedReportProperty) throws Exception {
-        log.info("job id:{}, Step id: {} In-Transit processor start for {} ",stepExecution.getJobExecutionId(),
-                stepExecution.getId());
-        //code for converting html to image and return DB entity
-        return null;
+        log.info("job id:{}, Step id: {} Reports processor start for {} ",stepExecution.getJobExecutionId(),
+                stepExecution.getId(), dashboardEmbeddedReportProperty.getReportname());
+
+        BufferedImage bufferedImage = ImageIO.read(new URL(dashboardEmbeddedReportProperty.getReportLink()));
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage,"jpg",byteArrayOutputStream);
+        byteArrayOutputStream.flush();
+        DashboardEmbeddedReport dashboardEmbeddedReport = new DashboardEmbeddedReport();
+        dashboardEmbeddedReport.setImage(byteArrayOutputStream.toByteArray());
+        dashboardEmbeddedReport.setReportname(dashboardEmbeddedReportProperty.getReportname());
+        dashboardEmbeddedReport.setWeekendDate(LocalDateTime.now().toString());
+        return dashboardEmbeddedReport;
     }
     
 

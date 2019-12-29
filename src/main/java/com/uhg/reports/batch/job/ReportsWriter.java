@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import java.util.stream.Collectors;
 
 @Component
 @StepScope
@@ -21,19 +24,30 @@ public class ReportsWriter implements ItemWriter<FutureTask<DashboardEmbeddedRep
     
     @Value("#{stepExecution}")
     private StepExecution stepExecution;
-    private ReportsBatchProperties reportsBatchProperties;
     private DashboardEmbeddedReportRepository dashboardEmbeddedReportRepository;
     
     
-    public ReportsWriter(DashboardEmbeddedReportRepository dashboardEmbeddedReportRepository, ReportsBatchProperties reportsBatchProperties) {
+    public ReportsWriter(DashboardEmbeddedReportRepository dashboardEmbeddedReportRepository) {
         this.dashboardEmbeddedReportRepository = dashboardEmbeddedReportRepository;
-        this.reportsBatchProperties = reportsBatchProperties;
     }
     
     @Override
-    public void write(List<? extends FutureTask<DashboardEmbeddedReport>> inTransitNotificationDtos) throws Exception {
+    public void write(List<? extends FutureTask<DashboardEmbeddedReport>> dashboardEmbeddedReports) throws Exception {
 
-            //code to save the image into DB
+        List<DashboardEmbeddedReport>  dashboardEmbeddedReportList =  dashboardEmbeddedReports.stream().map(t -> {
+            try {
+                return t.get();
+            } catch (InterruptedException | ExecutionException e) {
+                log.error("exception while getting dashboardEmbeddedReports from futureTask", e);
+            }
+            return null;
+        }).filter(Objects::nonNull).collect(Collectors.toList());
+        log.info("job id:{}, Step id: {} In-Transit writer end for {} ",stepExecution.getJobExecutionId(),
+                stepExecution.getId());
+        dashboardEmbeddedReportList.forEach(dashboardEmbeddedReport -> {
+            log.info("saving image for report {} to database", dashboardEmbeddedReport.getImage());
+                    dashboardEmbeddedReportRepository.save(dashboardEmbeddedReport);
+                });
             log.info("job id:{}, Step id: {} In-Transit writer end for {} ",stepExecution.getJobExecutionId(),
                     stepExecution.getId());
     }

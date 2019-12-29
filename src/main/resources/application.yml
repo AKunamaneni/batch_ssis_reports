@@ -1,0 +1,14 @@
+uhg:
+  mysql:
+    datasource:
+      reports:
+        url: jdbc:mysql://dbsrd3986:3306/redis
+        username: amulya
+        password: amulya
+reports:
+  batch:
+    job:
+      startDelay: 2
+      conExpression: 0 0 20 * * FRI
+      concurrencyLimit: 5
+      pageSize: 1
