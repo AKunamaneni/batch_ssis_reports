@@ -25,8 +25,8 @@ public class ReportsProcessor implements ItemProcessor<DashboardEmbeddedReportPr
 
     @Override
     public DashboardEmbeddedReport process(DashboardEmbeddedReportProperty dashboardEmbeddedReportProperty) throws Exception {
-        log.info("job id:{}, Step id: {} Reports processor start for {} ",stepExecution.getJobExecutionId(),
-                stepExecution.getId(), dashboardEmbeddedReportProperty.getReportname());
+       System.out.println("job id:{}, Step id: {} Reports processor start for {} "+ stepExecution.getJobExecutionId()+
+                stepExecution.getId()+ dashboardEmbeddedReportProperty.getReportname());
 
         BufferedImage bufferedImage = ImageIO.read(new URL(dashboardEmbeddedReportProperty.getReportLink()));
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

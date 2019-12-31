@@ -6,17 +6,17 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 @Component
-@Slf4j
+
 public class ReportsJobListener implements JobExecutionListener {
 
     @Override
     public void beforeJob(JobExecution jobExecution) {
-        log.info("beforeJob: {}", jobExecution);
+    	System.out.println("beforeJob: {}"+ jobExecution);
     }
 
     @Override
     public void afterJob(JobExecution jobExecution) {
-        log.info("afterJob : {}", jobExecution);
+    	System.out.println("afterJob : {}"+ jobExecution);
     }
 
 }

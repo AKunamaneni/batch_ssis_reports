@@ -3,12 +3,20 @@ uhg:
     datasource:
       reports:
         url: jdbc:mysql://dbsrd3986:3306/redis
-        username: amulya
-        password: amulya
+        driver-class-name: com.mysql.jdbc.Driver
+        username: akunam
+        password: Ramuanji9
 reports:
   batch:
     job:
       startDelay: 2
-      conExpression: 0 0 20 * * FRI
+      conExpression: 0 0 9 ? * FRI
       concurrencyLimit: 5
       pageSize: 1
+spring:
+  jpa:
+    properties:
+       hibernate:
+         dialect: org.hibernate.dialect.MySQL5Dialect
+  quartz:
+    job-store-type: memory

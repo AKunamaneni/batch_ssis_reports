@@ -5,21 +5,21 @@ import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.stereotype.Component;
 @Component
-@Slf4j
+
 public class ReportsChunkListener implements ChunkListener {
 
     @Override
     public void beforeChunk(ChunkContext context) {
-        log.info("beforeChunk : {}", context);
+    	System.out.println("beforeChunk : {}"+ context);
     }
 
     @Override
     public void afterChunk(ChunkContext context) {
-        log.info("afterChunk : {}", context);
+    	System.out.println("afterChunk : {}"+ context);
     }
 
     @Override
     public void afterChunkError(ChunkContext context) {
-        log.info("afterChunkError : {}", context);
+    	System.out.println("afterChunkError : {}"+ context);
     }
 }

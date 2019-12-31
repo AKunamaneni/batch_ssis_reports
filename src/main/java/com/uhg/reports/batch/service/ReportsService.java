@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @Service
-@Slf4j
+
 public class ReportsService {
 
     private Job reportsJob;
@@ -30,7 +30,7 @@ public class ReportsService {
 
     @Async
     public void launchJob(JobExecutionContext context){
-        log.info("launchJob start: {}", context);
+    	System.out.println("launchJob start: {}"+ context);
         JobExecution  jobExecution = null;
         try {
 
@@ -38,9 +38,9 @@ public class ReportsService {
                     .toJobParameters());
         } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException
                 | JobParametersInvalidException e) {
-            log.error("Excpetion while launching batch job", e);
+        	System.out.println("Excpetion while launching batch job"+ e);
         }
-        log.info("launchJob end: {}, job execution: {}", context, jobExecution);
+        System.out.println("launchJob end: {}, job execution: {}"+ context+ jobExecution);
     }
     
 }

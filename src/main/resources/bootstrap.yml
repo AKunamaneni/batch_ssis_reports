@@ -8,7 +8,8 @@ info:
     
 spring:
   cloud:
-    config:
-      failFast: true
+    config: 
+      enabled: false
+      failFast: false
   application:
     name: @project.artifactId@

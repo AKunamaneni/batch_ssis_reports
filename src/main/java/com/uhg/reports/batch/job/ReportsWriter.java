@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Component
 @StepScope
-@Slf4j
+
 public class ReportsWriter implements ItemWriter<FutureTask<DashboardEmbeddedReport>> {
 
     
@@ -38,17 +38,17 @@ public class ReportsWriter implements ItemWriter<FutureTask<DashboardEmbeddedRep
             try {
                 return t.get();
             } catch (InterruptedException | ExecutionException e) {
-                log.error("exception while getting dashboardEmbeddedReports from futureTask", e);
+               System.out.println("exception while getting dashboardEmbeddedReports from futureTask"+ e);
             }
             return null;
         }).filter(Objects::nonNull).collect(Collectors.toList());
-        log.info("job id:{}, Step id: {} In-Transit writer end for {} ",stepExecution.getJobExecutionId(),
+        System.out.println("job id:{}, Step id: {} In-Transit writer end for {} "+ stepExecution.getJobExecutionId()+
                 stepExecution.getId());
         dashboardEmbeddedReportList.forEach(dashboardEmbeddedReport -> {
-            log.info("saving image for report {} to database", dashboardEmbeddedReport.getImage());
+        	System.out.println("saving image for report {} to database"+ dashboardEmbeddedReport.getImage());
                     dashboardEmbeddedReportRepository.save(dashboardEmbeddedReport);
                 });
-            log.info("job id:{}, Step id: {} In-Transit writer end for {} ",stepExecution.getJobExecutionId(),
+        System.out.println("job id:{}, Step id: {} In-Transit writer end for {} "+stepExecution.getJobExecutionId()+
                     stepExecution.getId());
     }
 

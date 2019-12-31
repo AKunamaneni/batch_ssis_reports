@@ -8,7 +8,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 public class ReportsJobScheduler extends QuartzJobBean{
 
     @Autowired
@@ -16,7 +16,7 @@ public class ReportsJobScheduler extends QuartzJobBean{
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        log.info("Quartz job started: {}", context);
+    	System.out.println("Quartz job started: {}"+ context);
         reportsService.launchJob(context);
     }
 }

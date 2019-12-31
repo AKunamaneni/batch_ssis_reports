@@ -10,7 +10,7 @@ import java.io.Serializable;
         name = "dashboard_embedded_report_property",
         schema = "schema"
 )
-@Data
+
 public class DashboardEmbeddedReportProperty implements Serializable {
 
     @Id
@@ -41,5 +41,46 @@ public class DashboardEmbeddedReportProperty implements Serializable {
     )
     private String isActive;
 
+	public String getReportname() {
+		return reportname;
+	}
 
+	public void setReportname(String reportname) {
+		this.reportname = reportname;
+	}
+
+	public String getReportLink() {
+		return reportLink;
+	}
+
+	public void setReportLink(String reportLink) {
+		this.reportLink = reportLink;
+	}
+
+	public int getImageLength() {
+		return imageLength;
+	}
+
+	public void setImageLength(int imageLength) {
+		this.imageLength = imageLength;
+	}
+
+	public int getImageWidth() {
+		return imageWidth;
+	}
+
+	public void setImageWidth(int imageWidth) {
+		this.imageWidth = imageWidth;
+	}
+
+	public String getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(String isActive) {
+		this.isActive = isActive;
+	}
+
+
+    
 }
