@@ -2,11 +2,10 @@ package com.uhg.reports.batch.job;
 
 import com.uhg.reports.batch.entity.DashboardEmbeddedReport;
 import com.uhg.reports.batch.entity.DashboardEmbeddedReportProperty;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.beans.factory.annotation.Value;
+import com.uhg.reports.batch.service.ReportsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
@@ -16,17 +15,19 @@ import java.net.URL;
 import java.time.LocalDateTime;
 
 @Component
-@StepScope
-@Slf4j
-public class ReportsProcessor implements ItemProcessor<DashboardEmbeddedReportProperty, DashboardEmbeddedReport> {
+@EnableScheduling
+public class ReportsProcessor {
 
-    @Value("#{stepExecution}")
-    private StepExecution stepExecution;
+    private final ReportsService reportsService;
 
-    @Override
-    public DashboardEmbeddedReport process(DashboardEmbeddedReportProperty dashboardEmbeddedReportProperty) throws Exception {
-       System.out.println("job id:{}, Step id: {} Reports processor start for {} "+ stepExecution.getJobExecutionId()+
-                stepExecution.getId()+ dashboardEmbeddedReportProperty.getReportname());
+    @Autowired
+    public ReportsProcessor(ReportsService reportsService) {
+        this.reportsService = reportsService;
+    }
+
+
+    @Scheduled(cron = "${batch.process.cron}")
+    public void process(DashboardEmbeddedReportProperty dashboardEmbeddedReportProperty) throws Exception {
 
         BufferedImage bufferedImage = ImageIO.read(new URL(dashboardEmbeddedReportProperty.getReportLink()));
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

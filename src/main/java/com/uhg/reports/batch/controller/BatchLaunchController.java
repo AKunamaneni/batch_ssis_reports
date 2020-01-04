@@ -34,7 +34,7 @@ public class BatchLaunchController {
                     new JobParametersBuilder().addString("time", new Date().toString()).toJobParameters());
         } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException
                 | JobParametersInvalidException e) {
-            throw new UHGRuntimeException("Exception occured while running job from rest service", e);
+            throw new UHGRuntimeException("Exception occured while running processor from rest service", e);
         }
         return jobExecution.getExitStatus().getExitCode();
     }
