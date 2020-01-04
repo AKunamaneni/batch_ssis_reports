@@ -11,11 +11,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EnableBatchProcessing
 @EnableCaching
 @EnableTransactionManagement
 @EnableScheduling
-@EnableAsync
 @EnableJpaRepositories(entityManagerFactoryRef = "localContainerEntityManagerFactoryBean", transactionManagerRef = "jpaTransactionManager", basePackages = {
         "com.uhg.reports.batch.entity" })
 public class Application {
