@@ -11,7 +11,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.imageio.ImageIO;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -44,25 +53,28 @@ public class ReportsProcessor {
                 BufferedImage bufferedImage = null;
                 ByteArrayOutputStream byteArrayOutputStream = null;
                 try {
-                    bufferedImage = ImageIO.read(new URL(dashboardEmbeddedReportProperty.getReportLink()));
-                    byteArrayOutputStream = new ByteArrayOutputStream();
-                    ImageIO.write(bufferedImage,"jpg",byteArrayOutputStream);
+                	HtmlImageGenerator
+                	// get the byte array of the image (as jpeg)  
+                	ByteArrayOutputStream baos = new ByteArrayOutputStream();  
+                	ImageIO.write(image, "jpg", baos);  
+                	byte[] bytes = baos.toByteArray();
+                	//bufferedImage = ImageIO.read(new URL("https://phi-splunk.optum.com/en-US/static/@undefined/img/skins/default/loading_medium_green.png"));
                     DashboardEmbeddedReport dashboardEmbeddedReport = new DashboardEmbeddedReport();
                     dashboardEmbeddedReport.setImage(byteArrayOutputStream.toByteArray());
                     dashboardEmbeddedReport.setReportname(dashboardEmbeddedReportProperty.getReportname());
-                    dashboardEmbeddedReport.setWeekendDate(LocalDateTime.now().toString());
+                    dashboardEmbeddedReport.setWeekendDate("2020-01-04");
                     byteArrayOutputStream.flush();
                     reportImages.add(dashboardEmbeddedReport);
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                } finally {
-                    try {
-                        byteArrayOutputStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                } //finally {
+//                    try {
+//                        byteArrayOutputStream.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
             });
         }

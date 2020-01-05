@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Entity
 @Table(
         name = "dashboard_embedded_report",
-        schema = "schema"
+        schema = "redis"
 )
 
 public class DashboardEmbeddedReport implements Serializable {
