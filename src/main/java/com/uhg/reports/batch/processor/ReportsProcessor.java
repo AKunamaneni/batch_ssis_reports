@@ -4,6 +4,7 @@ import com.uhg.reports.batch.entity.DashboardEmbeddedReport;
 import com.uhg.reports.batch.entity.DashboardEmbeddedReportProperty;
 import com.uhg.reports.batch.repository.DashboardEmbeddedReportPropertyRepository;
 import com.uhg.reports.batch.repository.DashboardEmbeddedReportRepository;
+import gui.ava.html.image.generator.HtmlImageGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -53,12 +54,12 @@ public class ReportsProcessor {
                 BufferedImage bufferedImage = null;
                 ByteArrayOutputStream byteArrayOutputStream = null;
                 try {
-                	HtmlImageGenerator
+                    HtmlImageGenerator htmlImageGenerator = new HtmlImageGenerator();
+                    htmlImageGenerator.loadUrl(dashboardEmbeddedReportProperty.getReportLink());
+                    bufferedImage = htmlImageGenerator.getBufferedImage();
                 	// get the byte array of the image (as jpeg)  
-                	ByteArrayOutputStream baos = new ByteArrayOutputStream();  
-                	ImageIO.write(image, "jpg", baos);  
-                	byte[] bytes = baos.toByteArray();
-                	//bufferedImage = ImageIO.read(new URL("https://phi-splunk.optum.com/en-US/static/@undefined/img/skins/default/loading_medium_green.png"));
+                	byteArrayOutputStream = new ByteArrayOutputStream();
+                	ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
                     DashboardEmbeddedReport dashboardEmbeddedReport = new DashboardEmbeddedReport();
                     dashboardEmbeddedReport.setImage(byteArrayOutputStream.toByteArray());
                     dashboardEmbeddedReport.setReportname(dashboardEmbeddedReportProperty.getReportname());
