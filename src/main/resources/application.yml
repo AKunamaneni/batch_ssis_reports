@@ -8,7 +8,7 @@ uhg:
         password: Ramuanji9
 reports:
   batch:
-      cron: 0 0 9 ? * FRI
+      cron: 0 0 9 ? * SUN
 
 spring:
   jpa:

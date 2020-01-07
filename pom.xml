@@ -135,17 +135,6 @@
 			<artifactId>httpcore</artifactId>
 			<version>4.4.6</version>
 		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.10</version>
-			<scope>provided</scope>
-		</dependency>
-        <dependency>
-            <groupId>com.github.xuwei-k</groupId>
-            <artifactId>html2image</artifactId>
-            <version>0.1.0</version>
-        </dependency>
 	</dependencies>
 	<build>
 		<finalName>BatchReportServices</finalName>
